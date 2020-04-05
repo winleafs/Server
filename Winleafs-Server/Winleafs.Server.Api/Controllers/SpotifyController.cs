@@ -5,6 +5,7 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Winleafs.Server.Api.Configuration;
 using Winleafs.Server.Api.DTO;
 
 namespace Winleafs.Server.Api.Controllers
@@ -46,7 +47,7 @@ namespace Winleafs.Server.Api.Controllers
 
         private string GetSpotifyAuthorizationHeader()
         {
-            var spotifyauthorizationBytes = Encoding.UTF8.GetBytes($"{_configuration.GetValue<string>("Spotify:ClientId")}:{_configuration.GetValue<string>("Spotify:ClientSecret")}");
+            var spotifyauthorizationBytes = Encoding.UTF8.GetBytes($"{SpotifyClientInfo.ClientID}:{SpotifyClientInfo.ClientSecret}");
             return Convert.ToBase64String(spotifyauthorizationBytes);
         }
     }
