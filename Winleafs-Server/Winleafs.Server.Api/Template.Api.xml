@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+
+<doc>
+  <assembly>
+    <name>Template.Api</name>
+  </assembly>
+  <members>
+    <member
+      name="M:Template.Api.Configuration.DependencyInjection.AddPatterns(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+      <summary>
+        Adds the patters to the patterns code to the services so the repositories and services work.
+      </summary>
+      <param name="services">The current service collection.</param>
+      <returns>The <paramref name="services" /> enriched with the patterns objects.</returns>
+    </member>
+    <member
+      name="M:Template.Api.Configuration.DependencyInjection.AddServicesAndRepositories(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+      <summary>
+        Configures the injection for the services and repositories.
+      </summary>
+      <param name="services">The current service collection.</param>
+      <returns>The <paramref name="services" /> enriched with the services and repositories.</returns>
+    </member>
+    <member name="M:Template.Api.Controllers.BaseApiController.#ctor(Microsoft.EntityFrameworkCore.DbContext)">
+      <summary>
+        Initializes a new instance of the <see cref="T:Template.Api.Controllers.BaseApiController" /> class.
+      </summary>
+      <param name="context">The injected context to be used.</param>
+    </member>
+    <member name="M:Template.Api.Controllers.ValuesController.Get">
+      <summary>
+        Gets a simple collection of 2 values.
+      </summary>
+      <returns></returns>
+    </member>
+    <member name="M:Template.Api.Controllers.ValuesController.Get(System.Int32)">
+      <summary>
+        Gets a value based on it's id.
+      </summary>
+      <param name="id"></param>
+      <returns></returns>
+    </member>
+    <member name="M:Template.Api.Controllers.ValuesController.Post(System.String)">
+      <summary>
+        Creates a new value based on the given body.
+      </summary>
+      <param name="value"></param>
+    </member>
+    <member name="M:Template.Api.Controllers.ValuesController.Put(System.Int32,System.String)">
+      <summary>
+        Updates a value based on the given id and value.
+      </summary>
+      <param name="id"></param>
+      <param name="value"></param>
+    </member>
+    <member name="M:Template.Api.Controllers.ValuesController.Delete(System.Int32)">
+      <summary>
+        Deletes a value.
+      </summary>
+      <param name="id"></param>
+    </member>
+  </members>
+</doc>

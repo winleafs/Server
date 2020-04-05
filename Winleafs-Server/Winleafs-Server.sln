@@ -1,0 +1,84 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28729.10
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Winleafs.Server.Api", "Winleafs.Server.Api\Winleafs.Server.Api.csproj", "{3A72E191-4D28-4644-BD57-35FF6A155A74}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 Api", "5 Api", "{E4CFD73F-A97F-46EF-BA69-2DD8415E703D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 Models", "1 Models", "{55627B3F-9A76-4ABF-A4AB-5A94E687D34C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Winleafs.Server.Models", "Winleafs.Server.Models\Winleafs.Server.Models.csproj", "{F51ADA20-D7B1-431A-84D8-080936164557}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 Repositories", "2 Repositories", "{4D4E4821-E1FB-44EB-978A-DC8B41146C67}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Winleafs.Server.Repositories", "Winleafs.Server.Repositories\Winleafs.Server.Repositories.csproj", "{C10B577A-DAEF-43BE-B25F-3AE5B130296F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 Services", "3 Services", "{F8824C20-57C7-4956-88D0-CDA808495321}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Winleafs.Server.Services", "Winleafs.Server.Services\Winleafs.Server.Services.csproj", "{D8B6A97C-CACC-4BED-94EE-CA04FC5F9AAA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "7 Tests", "7 Tests", "{D7861B5A-D2E7-4F5D-8EAF-12ACCFDABCD5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 Resources", "6 Resources", "{DF5470FD-90BA-49D0-9D97-3412FF369195}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Winleafs.Server.Tests", "Winleafs.Server.Tests\Winleafs.Server.Tests.csproj", "{4964E45D-1D9B-46D7-9575-DE1730A08851}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Winleafs.Server.Resources", "Winleafs.Server.Resources\Winleafs.Server.Resources.csproj", "{341089AD-02E2-4999-8769-937E33716D14}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 Data", "4 Data", "{F1E1AEE9-EC7E-48C5-98B1-6D8DEF62F394}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Winleafs.Server.Data", "Winleafs.Server.DAL\Winleafs.Server.Data.csproj", "{1D139557-A192-4877-9D07-D2F1D92A0052}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3A72E191-4D28-4644-BD57-35FF6A155A74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3A72E191-4D28-4644-BD57-35FF6A155A74}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3A72E191-4D28-4644-BD57-35FF6A155A74}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3A72E191-4D28-4644-BD57-35FF6A155A74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F51ADA20-D7B1-431A-84D8-080936164557}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F51ADA20-D7B1-431A-84D8-080936164557}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F51ADA20-D7B1-431A-84D8-080936164557}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F51ADA20-D7B1-431A-84D8-080936164557}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C10B577A-DAEF-43BE-B25F-3AE5B130296F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C10B577A-DAEF-43BE-B25F-3AE5B130296F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C10B577A-DAEF-43BE-B25F-3AE5B130296F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C10B577A-DAEF-43BE-B25F-3AE5B130296F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8B6A97C-CACC-4BED-94EE-CA04FC5F9AAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8B6A97C-CACC-4BED-94EE-CA04FC5F9AAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8B6A97C-CACC-4BED-94EE-CA04FC5F9AAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8B6A97C-CACC-4BED-94EE-CA04FC5F9AAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4964E45D-1D9B-46D7-9575-DE1730A08851}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4964E45D-1D9B-46D7-9575-DE1730A08851}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4964E45D-1D9B-46D7-9575-DE1730A08851}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4964E45D-1D9B-46D7-9575-DE1730A08851}.Release|Any CPU.Build.0 = Release|Any CPU
+		{341089AD-02E2-4999-8769-937E33716D14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{341089AD-02E2-4999-8769-937E33716D14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{341089AD-02E2-4999-8769-937E33716D14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{341089AD-02E2-4999-8769-937E33716D14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D139557-A192-4877-9D07-D2F1D92A0052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D139557-A192-4877-9D07-D2F1D92A0052}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D139557-A192-4877-9D07-D2F1D92A0052}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D139557-A192-4877-9D07-D2F1D92A0052}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3A72E191-4D28-4644-BD57-35FF6A155A74} = {E4CFD73F-A97F-46EF-BA69-2DD8415E703D}
+		{F51ADA20-D7B1-431A-84D8-080936164557} = {55627B3F-9A76-4ABF-A4AB-5A94E687D34C}
+		{C10B577A-DAEF-43BE-B25F-3AE5B130296F} = {4D4E4821-E1FB-44EB-978A-DC8B41146C67}
+		{D8B6A97C-CACC-4BED-94EE-CA04FC5F9AAA} = {F8824C20-57C7-4956-88D0-CDA808495321}
+		{4964E45D-1D9B-46D7-9575-DE1730A08851} = {D7861B5A-D2E7-4F5D-8EAF-12ACCFDABCD5}
+		{341089AD-02E2-4999-8769-937E33716D14} = {DF5470FD-90BA-49D0-9D97-3412FF369195}
+		{1D139557-A192-4877-9D07-D2F1D92A0052} = {F1E1AEE9-EC7E-48C5-98B1-6D8DEF62F394}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {87B531E3-EF4B-4A82-9F32-CC7734031AF6}
+	EndGlobalSection
+EndGlobal

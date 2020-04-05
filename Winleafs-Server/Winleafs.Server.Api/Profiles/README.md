@@ -1,0 +1,1 @@
+﻿Use this to create AutoMapper profiles that can be used for mapping models to DTOs

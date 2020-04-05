@@ -1,0 +1,1 @@
+﻿Resources can be used to either Globalize your API or standardize error messages.
