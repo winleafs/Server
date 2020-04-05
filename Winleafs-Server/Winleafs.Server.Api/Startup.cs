@@ -91,8 +91,8 @@ namespace Winleafs.Server.Api
         {
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{nameof(Winleafs)} API", Version = "v1"});
-                options.IncludeXmlComments($@"{AppDomain.CurrentDomain.BaseDirectory}{nameof(Winleafs)}.Api.xml");
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = $"Winleafs API", Version = "v1"});
+                options.IncludeXmlComments($@"{AppDomain.CurrentDomain.BaseDirectory}Winleafs.Server.Api.xml");
                 options.DescribeAllEnumsAsStrings();
             });
         }
