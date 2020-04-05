@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Template.Data;
+using Winleafs.Server.Data;
 
-namespace Template.Api.Configuration
+namespace Winleafs.Server.Api.Configuration
 {
     public static class DependencyInjection
     {

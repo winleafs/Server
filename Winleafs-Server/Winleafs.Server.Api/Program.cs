@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 
-namespace Template.Api
+namespace Winleafs.Server.Api
 {
     public class Program
     {

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Template.Models.Interfaces;
+using Winleafs.Server.Models.Interfaces;
 
-namespace Template.Services.Interfaces
+namespace Winleafs.Server.Services.Interfaces
 {
     /// <summary>
     ///     Base CRUD service that passes calls to the underlying repository.

@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Template.Models.Interfaces;
-using Template.Repositories.Interfaces;
+using Winleafs.Server.Models.Interfaces;
+using Winleafs.Server.Repositories.Interfaces;
 
-namespace Template.Repositories
+namespace Winleafs.Server.Repositories
 {
     public abstract class BaseRepository<TEntity> : IBaseRepository<TEntity>
         where TEntity : class, IEntity

@@ -1,9 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <AssemblyName>Template.Data</AssemblyName>
-    <RootNamespace>Template.Data</RootNamespace>
+    <AssemblyName>Winleafs.Server.Data</AssemblyName>
+    <RootNamespace>Winleafs.Server.Data</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>

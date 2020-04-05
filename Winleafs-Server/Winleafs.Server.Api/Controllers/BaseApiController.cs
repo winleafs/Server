@@ -1,12 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Template.Data;
+using Winleafs.Server.Data;
 
-namespace Template.Api.Controllers
+namespace Winleafs.Server.Api.Controllers
 {
     public abstract class BaseApiController : ControllerBase
     {
         protected ApplicationContext Context;
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="BaseApiController" /> class.
+        /// </summary>
+        protected BaseApiController()
+        {
+
+        }
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="BaseApiController" /> class.

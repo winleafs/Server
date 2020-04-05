@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Template.Api": {
+    "Winleafs.Server.Api": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

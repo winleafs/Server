@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Template.Api.Controllers
+namespace Winleafs.Server.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]

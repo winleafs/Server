@@ -1,4 +1,4 @@
-﻿namespace Template.Models.Interfaces
+﻿namespace Winleafs.Server.Models.Interfaces
 {
     /// <summary>
     ///     Interface to define database classes.

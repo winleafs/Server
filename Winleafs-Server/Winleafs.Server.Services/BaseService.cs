@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
-using Template.Models.Interfaces;
-using Template.Repositories.Interfaces;
-using Template.Services.Interfaces;
+using Winleafs.Server.Models.Interfaces;
+using Winleafs.Server.Repositories.Interfaces;
+using Winleafs.Server.Services.Interfaces;
 
-namespace Template.Services
+namespace Winleafs.Server.Services
 {
     /// <inheritdoc />
     public abstract class BaseService<TEntity> : IBaseService<TEntity>

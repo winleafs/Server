@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Template.Models.Interfaces;
+using Winleafs.Server.Models.Interfaces;
 
-namespace Template.Repositories.Interfaces
+namespace Winleafs.Server.Repositories.Interfaces
 {
     /// <summary>
     ///     A simple repository to do base CRUD actions.

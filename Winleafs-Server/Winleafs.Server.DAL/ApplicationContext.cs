@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Template.Data
+namespace Winleafs.Server.Data
 {
     public class ApplicationContext : DbContext
     {

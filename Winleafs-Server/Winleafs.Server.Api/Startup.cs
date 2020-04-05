@@ -5,9 +5,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
-using Template.Api.Configuration;
+using Winleafs.Server.Api.Configuration;
 
-namespace Template.Api
+namespace Winleafs.Server.Api
 {
     public class Startup
     {
@@ -91,8 +91,8 @@ namespace Template.Api
         {
             services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{nameof(Template)} API", Version = "v1"});
-                options.IncludeXmlComments($@"{AppDomain.CurrentDomain.BaseDirectory}{nameof(Template)}.Api.xml");
+                options.SwaggerDoc("v1", new OpenApiInfo { Title = $"{nameof(Winleafs)} API", Version = "v1"});
+                options.IncludeXmlComments($@"{AppDomain.CurrentDomain.BaseDirectory}{nameof(Winleafs)}.Api.xml");
                 options.DescribeAllEnumsAsStrings();
             });
         }
