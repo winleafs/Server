@@ -1,6 +1,6 @@
 ﻿namespace Winleafs.Server.Api.DTO
 {
-    public class SwapTokenDTO
+    public class SwapTokenToSpotifyDTO
     {
         public string grant_type { get; set; }
 

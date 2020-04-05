@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
 using System.Net.Http;
@@ -12,20 +11,15 @@ namespace Winleafs.Server.Api.Controllers
 {
     public class SpotifyController : BaseApiController
     {
-        private readonly IConfiguration _configuration;
-
-        public SpotifyController(IConfiguration config)
-        {
-            _configuration = config;
-        }
-
         [HttpPost]
         [Route("swap")]
         public async Task<IActionResult> SwapToken([FromBody]string grant_type, [FromBody]string code, [FromBody]string redirect_uri)
         {
             using (var client = new HttpClient())
             {
-                var swapTokenDTO = new SwapTokenDTO
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + GetSpotifyAuthorizationHeader());
+
+                var swapTokenDTO = new SwapTokenToSpotifyDTO
                 {
                     code = code,
                     grant_type = grant_type,
@@ -35,6 +29,10 @@ namespace Winleafs.Server.Api.Controllers
                 var queryString = new StringContent(JsonConvert.SerializeObject(swapTokenDTO), Encoding.UTF8, "application/json");
 
                 var response = await client.PostAsync("https://accounts.spotify.com/api/token", queryString);
+
+                var result = JsonConvert.DeserializeObject<SwapTokenResultDTO>(await response.Content.ReadAsStringAsync());
+
+                return Ok(result);
             }
         }
 
@@ -42,7 +40,24 @@ namespace Winleafs.Server.Api.Controllers
         [Route("refresh")]
         public async Task<IActionResult> RefreshToken([FromBody]string grant_type, [FromBody]string refresh_token)
         {
+            using (var client = new HttpClient())
+            {
+                client.DefaultRequestHeaders.Add("Authorization", "Basic " + GetSpotifyAuthorizationHeader());
 
+                var swapTokenDTO = new RefreshTokenToSpotifyDTO
+                {
+                    grant_type = grant_type,
+                    refresh_token = refresh_token
+                };
+
+                var queryString = new StringContent(JsonConvert.SerializeObject(swapTokenDTO), Encoding.UTF8, "application/json");
+
+                var response = await client.PostAsync("https://accounts.spotify.com/api/token", queryString);
+
+                var result = JsonConvert.DeserializeObject<RefreshTokenResultDTO>(await response.Content.ReadAsStringAsync());
+
+                return Ok(result);
+            }
         }
 
         private string GetSpotifyAuthorizationHeader()
