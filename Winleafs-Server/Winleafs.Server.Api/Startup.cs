@@ -1,11 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using System;
 using Winleafs.Server.Api.Configuration;
+using Winleafs.Server.Data;
 
 namespace Winleafs.Server.Api
 {
@@ -27,6 +29,8 @@ namespace Winleafs.Server.Api
             services
                 .AddPatterns()
                 .AddServicesAndRepositories();
+
+            services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

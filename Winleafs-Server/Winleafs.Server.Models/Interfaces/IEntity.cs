@@ -1,4 +1,6 @@
-﻿namespace Winleafs.Server.Models.Interfaces
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Winleafs.Server.Models.Interfaces
 {
     /// <summary>
     ///     Interface to define database classes.
