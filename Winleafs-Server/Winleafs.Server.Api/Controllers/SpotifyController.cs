@@ -61,12 +61,12 @@ namespace Winleafs.Server.Api.Controllers
         }
 
         [HttpGet]
-        [Route("playlist-names")]
+        [Route("playlists")]
         public async Task<IActionResult> GetPlaylistNames([FromQuery]WinleafsIdDTO winleafsIdDTO)
         {
             try
             {
-                return Ok(await _spotifyService.GetPlaylistNames(winleafsIdDTO.ApplicationId));
+                return Ok(await _spotifyService.GetPlaylists(winleafsIdDTO.ApplicationId));
             }
             catch (InvalidApplicationIdException e)
             {

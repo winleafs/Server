@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using SpotifyAPI.Web;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,6 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
-using Winleafs.Server.Data;
 using Winleafs.Server.Models.Models;
 using Winleafs.Server.Services.DTO;
 using Winleafs.Server.Services.Exceptions;
@@ -21,12 +21,12 @@ namespace Winleafs.Server.Services
         private static HttpClient _spotifyAuthorizationClient = new HttpClient();
 
         private IUserService _userService;
-        private ApplicationContext _applicationContext;
+        private DbContext _context;
 
-        public SpotifyService(IUserService userService, ApplicationContext applicationContext)
+        public SpotifyService(IUserService userService, DbContext context)
         {
             _userService = userService;
-            _applicationContext = applicationContext;
+            _context = context;
         }
 
         public async Task SwapToken(string code, string applicationId)
@@ -57,7 +57,7 @@ namespace Winleafs.Server.Services
 
             _userService.Update(user);
 
-            await _applicationContext.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public async Task RefreshToken(User user)
@@ -79,7 +79,7 @@ namespace Winleafs.Server.Services
 
             _userService.Update(user);
 
-            await _applicationContext.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
 
         public async Task<string> GetCurrentPlayingPlaylistId(string applicationId)
@@ -94,17 +94,17 @@ namespace Winleafs.Server.Services
             }
 
             var playlistUrl = playbackContext.Context.ExternalUrls.FirstOrDefault(externalUrl => externalUrl.Value.Contains("playlist"));
-            return playlistUrl.Value.Remove(0, "https://open.spotify.com/playlist/".Length);
+            return string.IsNullOrEmpty(playlistUrl.Value) ? null : playlistUrl.Value.Remove(0, "https://open.spotify.com/playlist/".Length);
         }
 
-        public async Task<IEnumerable<string>> GetPlaylistNames(string applicationId)
+        public async Task<Dictionary<string, string>> GetPlaylists(string applicationId)
         {
             var webAPI = await GetRefreshedSpotifyWebAPI(applicationId);
             var profile = await webAPI.GetPrivateProfileAsync();
 
             var info = await webAPI.GetUserPlaylistsAsync(profile.Id);
 
-            return info.Items.Select(playlist => playlist.Name);
+            return info.Items.ToDictionary(playlist => playlist.Id, playlist => playlist.Name);
         }
 
         #region Privates

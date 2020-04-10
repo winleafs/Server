@@ -40,10 +40,10 @@ namespace Winleafs.Server.Services.Interfaces
         Task<string> GetCurrentPlayingPlaylistId(string applicationId);
 
         /// <summary>
-        /// Retrieves the names of the palylists of the
+        /// Retrieves the ids and names of the playlists of the
         /// Spotify account connected to the given
         /// <paramref name="applicationId"/>.
         /// </summary>
-        Task<IEnumerable<string>> GetPlaylistNames(string applicationId);
+        Task<Dictionary<string, string>> GetPlaylists(string applicationId);
     }
 }
