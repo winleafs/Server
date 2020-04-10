@@ -1,15 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
-using Winleafs.Server.Api.Configuration;
 using Winleafs.Server.Api.DTO;
-using Winleafs.Server.Services;
+using Winleafs.Server.Services.Exceptions;
+using Winleafs.Server.Services.Helpers;
+using Winleafs.Server.Services.Interfaces;
 
 namespace Winleafs.Server.Api.Controllers
 {
@@ -18,10 +13,12 @@ namespace Winleafs.Server.Api.Controllers
     public class SpotifyController : BaseApiController
     {
         private IUserService _userService;
+        private ISpotifyService _spotifyService;
 
-        public SpotifyController(DbContext context, IUserService userService) : base(context)
+        public SpotifyController(DbContext context, IUserService userService, ISpotifyService spotifyService) : base(context)
         {
             _userService = userService;
+            _spotifyService = spotifyService;
         }
 
         [HttpGet]
@@ -39,67 +36,68 @@ namespace Winleafs.Server.Api.Controllers
         [Route("swap")]
         public async Task<IActionResult> SwapToken([FromQuery]string code, [FromQuery]string state, [FromQuery]string error)
         {
-            //TODO: error handling if error != empty
-
-            var user = await _userService.FindUserByApplicationId(state); //We passed the application id as state for the authorize request
-
-            if (user == null)
+            //If there is an error, the user did not grant access
+            if (!string.IsNullOrEmpty(error))
             {
-                return BadRequest("Invalid state");
+                return BadRequest("Error: Winleafs did not get access to Spotify.");
             }
 
-            using (var client = new HttpClient())
+            try
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", GetSpotifyAuthorizationHeader());
+                await _spotifyService.SwapToken(code, state); //We passed the application id as state for the authorize request
+            }
+            catch (InvalidApplicationIdException e)
+            {
+                //TODO: add logging
+                return BadRequest("Failed to find a matching application id. Please disconnect from Spotify and try again.");
+            }
+            catch
+            {
+                //TODO: add logging
+                return BadRequest("Unknown error during Spotify authorization. Please disconnect from Spotify and try again.");
+            }
 
-                var postDictionary = new Dictionary<string, string>
-                {
-                    { "code", code },
-                    { "grant_type", "authorization_code" },
-                    { "redirect_uri", SpotifyClientInfo.RedirectURI }
-                };
+            return Ok("Authentication successful! You can now close this window");
+        }
 
-                var response = await client.PostAsync("https://accounts.spotify.com/api/token", new FormUrlEncodedContent(postDictionary));
-
-                var result = JsonConvert.DeserializeObject<SwapTokenResultDTO>(await response.Content.ReadAsStringAsync());
-
-                user.RefreshToken = result.refresh_token;
-                user.SpotifyAccessToken = result.access_token;
-                user.SpotifyExpiresOn = DateTime.Now.AddSeconds(result.expires_in);
-
-                await Context.SaveChangesAsync();
-
-                return Ok("Authentication succesfull! You can now close this window");
+        [HttpGet]
+        [Route("playlist-names")]
+        public async Task<IActionResult> GetPlaylistNames([FromQuery]WinleafsIdDTO winleafsIdDTO)
+        {
+            try
+            {
+                return Ok(await _spotifyService.GetPlaylistNames(winleafsIdDTO.ApplicationId));
+            }
+            catch (InvalidApplicationIdException e)
+            {
+                //TODO: add logging
+                return BadRequest("Failed to find a matching application id. Please disconnect from Spotify and try again.");
+            }
+            catch
+            {
+                //TODO: add logging
+                return BadRequest("Failed to retrieve playlist names.");
             }
         }
 
         [HttpGet]
-        [Route("refresh")]
-        public async Task<IActionResult> RefreshToken([FromQuery]string refresh_token)
+        [Route("current-playing-playlist-id")]
+        public async Task<IActionResult> GetCurrentPlayingPlaylistId([FromQuery]WinleafsIdDTO winleafsIdDTO)
         {
-            using (var client = new HttpClient())
+            try
             {
-                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", GetSpotifyAuthorizationHeader());
-
-                var postDictionary = new Dictionary<string, string>
-                {
-                    { "refresh_token", refresh_token },
-                    { "grant_type", "refresh_token" },
-                };
-
-                var response = await client.PostAsync("https://accounts.spotify.com/api/token", new FormUrlEncodedContent(postDictionary));
-
-                var result = JsonConvert.DeserializeObject<RefreshTokenResultDTO>(await response.Content.ReadAsStringAsync());
-
-                //return Ok(result);
-                //TODO redirect to localhost:4200/auth
+                return Ok(await _spotifyService.GetCurrentPlayingPlaylistId(winleafsIdDTO.ApplicationId));
             }
-        }
-
-        private string GetSpotifyAuthorizationHeader()
-        {
-            var spotifyauthorizationBytes = Encoding.UTF8.GetBytes($"{SpotifyClientInfo.ClientID}:{SpotifyClientInfo.ClientSecret}");
-            return Convert.ToBase64String(spotifyauthorizationBytes);
+            catch (InvalidApplicationIdException e)
+            {
+                //TODO: add logging
+                return BadRequest("Failed to find a matching application id. Please disconnect from Spotify and try again.");
+            }
+            catch
+            {
+                //TODO: add logging
+                return BadRequest("Failed to retrieve current playing playlist id.");
+            }
         }
     }
 }

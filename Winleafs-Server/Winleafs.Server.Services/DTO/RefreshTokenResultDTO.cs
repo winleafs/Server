@@ -1,4 +1,4 @@
-﻿namespace Winleafs.Server.Api.DTO
+﻿namespace Winleafs.Server.Services.DTO
 {
     public class RefreshTokenResultDTO
     {

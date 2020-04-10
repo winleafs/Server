@@ -10,7 +10,7 @@ using Winleafs.Server.Data;
 namespace Winleafs.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20200406193236_AppInit")]
+    [Migration("20200410130320_AppInit")]
     partial class AppInit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -31,14 +31,14 @@ namespace Winleafs.Server.Data.Migrations
                     b.Property<string>("ApplicationId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("RefreshToken")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SpotifyAccessToken")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("SpotifyExpiresOn")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("SpotifyRefreshToken")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

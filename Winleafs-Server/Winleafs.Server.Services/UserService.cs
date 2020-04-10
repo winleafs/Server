@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using Winleafs.Server.Models.Models;
-using Winleafs.Server.Repositories;
+using Winleafs.Server.Repositories.Interfaces;
 using Winleafs.Server.Services.Interfaces;
 
 namespace Winleafs.Server.Services
-{   
+{
     public class UserService : BaseService<User>, IUserService
     {
         private IUserRepository _repository;

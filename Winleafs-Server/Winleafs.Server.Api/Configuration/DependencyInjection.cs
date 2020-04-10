@@ -31,6 +31,7 @@ namespace Winleafs.Server.Api.Configuration
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ISpotifyService, SpotifyService>();
 
             return services;
         }
