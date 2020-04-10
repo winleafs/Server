@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -72,7 +73,7 @@ namespace Winleafs.Server.Api.Controllers
             }
         }
 
-        /*[HttpGet]
+        [HttpGet]
         [Route("refresh")]
         public async Task<IActionResult> RefreshToken([FromQuery]string refresh_token)
         {
@@ -93,7 +94,7 @@ namespace Winleafs.Server.Api.Controllers
                 //return Ok(result);
                 //TODO redirect to localhost:4200/auth
             }
-        }*/
+        }
 
         private string GetSpotifyAuthorizationHeader()
         {

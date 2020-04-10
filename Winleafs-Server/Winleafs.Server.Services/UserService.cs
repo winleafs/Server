@@ -5,21 +5,7 @@ using Winleafs.Server.Repositories;
 using Winleafs.Server.Services.Interfaces;
 
 namespace Winleafs.Server.Services
-{
-    public interface IUserService : IBaseService<User>
-    {
-        /// <summary>
-        /// Adds an user with the given <paramref name="applicationId"/>
-        /// if it does not exist.
-        /// </summary>
-        /// <returns>
-        /// The existing or newly created user.
-        /// </returns>
-        Task<User> AddUserIfNotExists(string applicationId);
-
-        Task<User> FindUserByApplicationId(string applicationId);
-    }
-
+{   
     public class UserService : BaseService<User>, IUserService
     {
         private IUserRepository _repository;

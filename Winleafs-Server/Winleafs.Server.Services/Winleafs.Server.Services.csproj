@@ -15,4 +15,8 @@
     <ProjectReference Include="..\Winleafs.Server.Repositories\Winleafs.Server.Repositories.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Helpers\" />
+  </ItemGroup>
+
 </Project>

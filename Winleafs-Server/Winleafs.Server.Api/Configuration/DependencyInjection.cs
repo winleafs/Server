@@ -2,7 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Winleafs.Server.Data;
 using Winleafs.Server.Repositories;
+using Winleafs.Server.Repositories.Interfaces;
 using Winleafs.Server.Services;
+using Winleafs.Server.Services.Interfaces;
 
 namespace Winleafs.Server.Api.Configuration
 {
