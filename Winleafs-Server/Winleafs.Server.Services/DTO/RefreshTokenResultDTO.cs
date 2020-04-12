@@ -1,13 +1,19 @@
-﻿namespace Winleafs.Server.Services.DTO
+﻿using Newtonsoft.Json;
+
+namespace Winleafs.Server.Services.DTO
 {
     public class RefreshTokenResultDTO
     {
-        public string access_token { get; set; }
+        [JsonProperty(PropertyName = "access_token")]
+        public string AccessToken { get; set; }
 
-        public string token_type { get; set; }
+        [JsonProperty(PropertyName = "token_type")]
+        public string TokenType { get; set; }
 
-        public string scope { get; set; }
+        [JsonProperty(PropertyName = "scope")]
+        public string Scope { get; set; }
 
-        public int expires_in { get; set; }
+        [JsonProperty(PropertyName = "expires_in")]
+        public int ExpiresInSeconds { get; set; }
     }
 }

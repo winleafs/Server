@@ -8,8 +8,8 @@ namespace Winleafs.Server.Services
 {
     public class UserService : BaseService<User>, IUserService
     {
-        private IUserRepository _repository;
-        private DbContext _context;
+        private readonly IUserRepository _repository;
+        private readonly DbContext _context;
 
         public UserService(IUserRepository repository, DbContext context) : base(repository)
         {

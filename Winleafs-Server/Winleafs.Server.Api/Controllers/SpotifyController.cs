@@ -7,7 +7,7 @@ using Winleafs.Server.Services.Interfaces;
 
 namespace Winleafs.Server.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class SpotifyController : BaseApiController
     {
@@ -105,7 +105,7 @@ namespace Winleafs.Server.Api.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("disconnect/{applicationId}")]
         public async Task<IActionResult> Disconnect(string applicationId)
         {

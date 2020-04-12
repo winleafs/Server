@@ -18,15 +18,20 @@ namespace Winleafs.Server.Services
 {
     public class SpotifyService : ISpotifyService
     {
-        private static HttpClient _spotifyAuthorizationClient = new HttpClient();
+        private const string _spotifyApiTokenUrl = "https://accounts.spotify.com/api/token";
 
-        private IUserService _userService;
-        private DbContext _context;
+        private readonly HttpClient _spotifyAuthorizationClient;
+
+        private readonly IUserService _userService;
+        private readonly DbContext _context;
 
         public SpotifyService(IUserService userService, DbContext context)
         {
             _userService = userService;
             _context = context;
+
+            _spotifyAuthorizationClient = new HttpClient();
+            _spotifyAuthorizationClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", GetSpotifyAuthorizationHeader());
         }
 
         public async Task SwapToken(string code, string applicationId)
@@ -38,8 +43,6 @@ namespace Winleafs.Server.Services
                 throw new InvalidApplicationIdException("No user was found for the given application id");
             }
 
-            _spotifyAuthorizationClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", GetSpotifyAuthorizationHeader());
-
             var postDictionary = new Dictionary<string, string>
             {
                 { "code", code },
@@ -47,13 +50,13 @@ namespace Winleafs.Server.Services
                 { "redirect_uri", SpotifyClientInfo.RedirectURI }
             };
 
-            var response = await _spotifyAuthorizationClient.PostAsync("https://accounts.spotify.com/api/token", new FormUrlEncodedContent(postDictionary));
+            var response = await _spotifyAuthorizationClient.PostAsync(_spotifyApiTokenUrl, new FormUrlEncodedContent(postDictionary));
 
             var result = JsonConvert.DeserializeObject<SwapTokenResultDTO>(await response.Content.ReadAsStringAsync());
 
-            user.SpotifyRefreshToken = result.refresh_token;
-            user.SpotifyAccessToken = result.access_token;
-            user.SpotifyExpiresOn = DateTime.Now.AddSeconds(result.expires_in - 10); //Do minus 10 such that our value is always lower than the expire value on Spotify's side
+            user.SpotifyRefreshToken = result.RefreshToken;
+            user.SpotifyAccessToken = result.AccessToken;
+            user.SpotifyExpiresOn = DateTime.Now.AddSeconds(result.ExpiresInSeconds - 10); //Do minus 10 such that our value is always lower than the expire value on Spotify's side
 
             _userService.Update(user);
 
@@ -62,20 +65,18 @@ namespace Winleafs.Server.Services
 
         public async Task RefreshToken(User user)
         {
-            _spotifyAuthorizationClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", GetSpotifyAuthorizationHeader());
-
             var postDictionary = new Dictionary<string, string>
             {
                 { "refresh_token", user.SpotifyRefreshToken },
                 { "grant_type", "refresh_token" },
             };
 
-            var response = await _spotifyAuthorizationClient.PostAsync("https://accounts.spotify.com/api/token", new FormUrlEncodedContent(postDictionary));
+            var response = await _spotifyAuthorizationClient.PostAsync(_spotifyApiTokenUrl, new FormUrlEncodedContent(postDictionary));
 
             var result = JsonConvert.DeserializeObject<RefreshTokenResultDTO>(await response.Content.ReadAsStringAsync());
 
-            user.SpotifyAccessToken = result.access_token;
-            user.SpotifyExpiresOn = DateTime.Now.AddSeconds(result.expires_in - 10); //Do minus 10 such that our value is always lower than the expire value on Spotify's side
+            user.SpotifyAccessToken = result.AccessToken;
+            user.SpotifyExpiresOn = DateTime.Now.AddSeconds(result.ExpiresInSeconds - 10); //Do minus 10 such that our value is always lower than the expire value on Spotify's side
 
             _userService.Update(user);
 
