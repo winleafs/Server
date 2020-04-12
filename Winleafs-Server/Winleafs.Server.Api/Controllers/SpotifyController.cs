@@ -108,7 +108,7 @@ namespace Winleafs.Server.Api.Controllers
 
         [HttpPost]
         [Route("disconnect")]
-        public async Task<IActionResult> Disconnect([FromQuery]WinleafsIdDTO winleafsIdDTO)
+        public async Task<IActionResult> Disconnect([FromBody]WinleafsIdDTO winleafsIdDTO)
         {
             await _spotifyService.Disconnect(winleafsIdDTO.ApplicationId);
             return Ok();
