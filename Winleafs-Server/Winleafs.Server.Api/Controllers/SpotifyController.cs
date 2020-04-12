@@ -99,5 +99,13 @@ namespace Winleafs.Server.Api.Controllers
                 return BadRequest("Failed to retrieve current playing playlist id.");
             }
         }
+
+        [HttpGet]
+        [Route("disconnect")]
+        public async Task<IActionResult> Disconnect([FromQuery]WinleafsIdDTO winleafsIdDTO)
+        {
+            await _spotifyService.Disconnect(winleafsIdDTO.ApplicationId);
+            return Ok();
+        }
     }
 }

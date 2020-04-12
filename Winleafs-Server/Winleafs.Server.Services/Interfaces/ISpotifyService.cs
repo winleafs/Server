@@ -45,5 +45,12 @@ namespace Winleafs.Server.Services.Interfaces
         /// <paramref name="applicationId"/>.
         /// </summary>
         Task<Dictionary<string, string>> GetPlaylists(string applicationId);
+
+        /// <summary>
+        /// Deletes all Spotify related information for the given
+        /// <paramref name="applicationId"/>. Does not throw an error
+        /// if the user does not exist.
+        /// </summary>
+        Task Disconnect(string applicationId);
     }
 }

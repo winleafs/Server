@@ -32,7 +32,7 @@ namespace Winleafs.Server.Data.Migrations
                     b.Property<string>("SpotifyAccessToken")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("SpotifyExpiresOn")
+                    b.Property<DateTime?>("SpotifyExpiresOn")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("SpotifyRefreshToken")

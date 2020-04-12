@@ -107,6 +107,22 @@ namespace Winleafs.Server.Services
             return info.Items.ToDictionary(playlist => playlist.Id, playlist => playlist.Name);
         }
 
+        public async Task Disconnect(string applicationId)
+        {
+            var user = await _userService.FindUserByApplicationId(applicationId);
+
+            if (user != null)
+            {
+                user.SpotifyAccessToken = null;
+                user.SpotifyExpiresOn = null;
+                user.SpotifyRefreshToken = null;
+
+                _userService.Update(user);
+
+                await _context.SaveChangesAsync();
+            }
+        }
+
         #region Privates
         private string GetSpotifyAuthorizationHeader()
         {

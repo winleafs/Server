@@ -15,7 +15,7 @@ namespace Winleafs.Server.Data.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ApplicationId = table.Column<string>(nullable: true),
                     SpotifyAccessToken = table.Column<string>(nullable: true),
-                    SpotifyExpiresOn = table.Column<DateTime>(nullable: false),
+                    SpotifyExpiresOn = table.Column<DateTime>(nullable: true),
                     SpotifyRefreshToken = table.Column<string>(nullable: true)
                 },
                 constraints: table =>

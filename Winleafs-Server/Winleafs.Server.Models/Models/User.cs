@@ -13,7 +13,7 @@ namespace Winleafs.Server.Models.Models
 
         public string SpotifyAccessToken { get; set; }
 
-        public DateTime SpotifyExpiresOn { get; set; }
+        public DateTime? SpotifyExpiresOn { get; set; }
 
         public string SpotifyRefreshToken { get; set; }
     }
