@@ -123,6 +123,22 @@ namespace Winleafs.Server.Services
             }
         }
 
+        public async Task<bool> IsConnected(string applicationId)
+        {
+            try
+            {
+                var webAPI = await GetRefreshedSpotifyWebAPI(applicationId);
+
+                var playbackContext = await webAPI.GetPlaybackAsync();
+
+                return playbackContext.Error == null;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         #region Privates
         private string GetSpotifyAuthorizationHeader()
         {
@@ -142,6 +158,11 @@ namespace Winleafs.Server.Services
             if (user == null)
             {
                 throw new InvalidApplicationIdException("No user was found for the given application id");
+            }
+
+            if (user.SpotifyAccessToken == null)
+            {
+                throw new SpotifyNotConnectedException("The user is not connected to Spoify; no Spotify information is saved for the user.");
             }
 
             if (DateTime.Now > user.SpotifyExpiresOn)

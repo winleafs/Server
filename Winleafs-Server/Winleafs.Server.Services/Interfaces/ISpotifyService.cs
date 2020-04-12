@@ -52,5 +52,14 @@ namespace Winleafs.Server.Services.Interfaces
         /// if the user does not exist.
         /// </summary>
         Task Disconnect(string applicationId);
+
+        /// <summary>
+        /// Checks if the user associated to the given
+        /// <paramref name="applicationId"/> is connected to Spotify.
+        /// </summary>
+        /// <returns>
+        /// False if no user exists, or Spotify is not connected, true otherwise.
+        /// </returns>
+        Task<bool> IsConnected(string applicationId);
     }
 }

@@ -112,5 +112,12 @@ namespace Winleafs.Server.Api.Controllers
             await _spotifyService.Disconnect(applicationId);
             return Ok();
         }
+
+        [HttpGet]
+        [Route("is-connected/{applicationId}")]
+        public async Task<IActionResult> IsConnected(string applicationId)
+        {
+            return Ok((await _spotifyService.IsConnected(applicationId)).ToString().ToLower());
+        }
     }
 }
