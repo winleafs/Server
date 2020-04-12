@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using Winleafs.Server.Api.DTO;
 using Winleafs.Server.Services.Exceptions;
 using Winleafs.Server.Services.Helpers;
 using Winleafs.Server.Services.Interfaces;
@@ -25,14 +24,14 @@ namespace Winleafs.Server.Api.Controllers
         /// Must be GET due to Spotify authorization standards
         /// </remarks>
         [HttpGet]
-        [Route("authorize")]
-        public async Task<IActionResult> Authorize([FromQuery]WinleafsIdDTO winleafsIdDTO)
+        [Route("authorize/{applicationId}")]
+        public async Task<IActionResult> Authorize(string applicationId)
         {
             //Add the user if it is his/her first time using the spotify functionality
-            await _userService.AddUserIfNotExists(winleafsIdDTO.ApplicationId);
+            await _userService.AddUserIfNotExists(applicationId);
 
             const string scope = "playlist-read-private playlist-read-collaborative user-read-currently-playing user-read-playback-state";
-            return Redirect($"https://accounts.spotify.com/authorize/?client_id={SpotifyClientInfo.ClientID}&response_type=code&redirect_uri={SpotifyClientInfo.RedirectURI}&scope={scope}&state={winleafsIdDTO.ApplicationId}&show_dialog=false");
+            return Redirect($"https://accounts.spotify.com/authorize/?client_id={SpotifyClientInfo.ClientID}&response_type=code&redirect_uri={SpotifyClientInfo.RedirectURI}&scope={scope}&state={applicationId}&show_dialog=false");
         }
 
         /// <remarks>
@@ -67,12 +66,12 @@ namespace Winleafs.Server.Api.Controllers
         }
 
         [HttpGet]
-        [Route("playlists")]
-        public async Task<IActionResult> GetPlaylistNames([FromQuery]WinleafsIdDTO winleafsIdDTO)
+        [Route("playlists/{applicationId}")]
+        public async Task<IActionResult> GetPlaylistNames(string applicationId)
         {
             try
             {
-                return Ok(await _spotifyService.GetPlaylists(winleafsIdDTO.ApplicationId));
+                return Ok(await _spotifyService.GetPlaylists(applicationId));
             }
             catch (InvalidApplicationIdException e)
             {
@@ -87,12 +86,12 @@ namespace Winleafs.Server.Api.Controllers
         }
 
         [HttpGet]
-        [Route("current-playing-playlist-id")]
-        public async Task<IActionResult> GetCurrentPlayingPlaylistId([FromQuery]WinleafsIdDTO winleafsIdDTO)
+        [Route("current-playing-playlist-id/{applicationId}")]
+        public async Task<IActionResult> GetCurrentPlayingPlaylistId(string applicationId)
         {
             try
             {
-                return Ok(await _spotifyService.GetCurrentPlayingPlaylistId(winleafsIdDTO.ApplicationId));
+                return Ok(await _spotifyService.GetCurrentPlayingPlaylistId(applicationId));
             }
             catch (InvalidApplicationIdException e)
             {
@@ -107,10 +106,10 @@ namespace Winleafs.Server.Api.Controllers
         }
 
         [HttpPost]
-        [Route("disconnect")]
-        public async Task<IActionResult> Disconnect([FromBody]WinleafsIdDTO winleafsIdDTO)
+        [Route("disconnect/{applicationId}")]
+        public async Task<IActionResult> Disconnect(string applicationId)
         {
-            await _spotifyService.Disconnect(winleafsIdDTO.ApplicationId);
+            await _spotifyService.Disconnect(applicationId);
             return Ok();
         }
     }
