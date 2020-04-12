@@ -21,6 +21,9 @@ namespace Winleafs.Server.Api.Controllers
             _spotifyService = spotifyService;
         }
 
+        /// <remarks>
+        /// Must be GET due to Spotify authorization standards
+        /// </remarks>
         [HttpGet]
         [Route("authorize")]
         public async Task<IActionResult> Authorize([FromQuery]WinleafsIdDTO winleafsIdDTO)
@@ -32,6 +35,9 @@ namespace Winleafs.Server.Api.Controllers
             return Redirect($"https://accounts.spotify.com/authorize/?client_id={SpotifyClientInfo.ClientID}&response_type=code&redirect_uri={SpotifyClientInfo.RedirectURI}&scope={scope}&state={winleafsIdDTO.ApplicationId}&show_dialog=false");
         }
 
+        /// <remarks>
+        /// Must be GET due to Spotify authorization standards
+        /// </remarks>
         [HttpGet]
         [Route("swap")]
         public async Task<IActionResult> SwapToken([FromQuery]string code, [FromQuery]string state, [FromQuery]string error)
@@ -100,7 +106,7 @@ namespace Winleafs.Server.Api.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("disconnect")]
         public async Task<IActionResult> Disconnect([FromQuery]WinleafsIdDTO winleafsIdDTO)
         {
