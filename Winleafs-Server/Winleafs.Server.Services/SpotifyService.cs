@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SpotifyAPI.Web;
+using SpotifyAPI.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -52,6 +54,8 @@ namespace Winleafs.Server.Services
 
             var response = await _spotifyAuthorizationClient.PostAsync(_spotifyApiTokenUrl, new FormUrlEncodedContent(postDictionary));
 
+            CheckResponse(response);
+
             var result = JsonConvert.DeserializeObject<SwapTokenResultDTO>(await response.Content.ReadAsStringAsync());
 
             user.SpotifyRefreshToken = result.RefreshToken;
@@ -75,6 +79,8 @@ namespace Winleafs.Server.Services
 
             var result = JsonConvert.DeserializeObject<RefreshTokenResultDTO>(await response.Content.ReadAsStringAsync());
 
+            CheckResponse(response);
+
             user.SpotifyAccessToken = result.AccessToken;
             user.SpotifyExpiresOn = DateTime.Now.AddSeconds(result.ExpiresInSeconds - 10); //Do minus 10 such that our value is always lower than the expire value on Spotify's side
 
@@ -86,8 +92,9 @@ namespace Winleafs.Server.Services
         public async Task<string> GetCurrentPlayingPlaylistId(string applicationId)
         {
             var webAPI = await GetRefreshedSpotifyWebAPI(applicationId);
-
             var playbackContext = await webAPI.GetPlaybackAsync();
+
+            CheckResponse(playbackContext);
 
             if (!playbackContext.IsPlaying)
             {
@@ -102,6 +109,8 @@ namespace Winleafs.Server.Services
         {
             var webAPI = await GetRefreshedSpotifyWebAPI(applicationId);
             var profile = await webAPI.GetPrivateProfileAsync();
+
+            CheckResponse(profile);
 
             var info = await webAPI.GetUserPlaylistsAsync(profile.Id);
 
@@ -129,8 +138,9 @@ namespace Winleafs.Server.Services
             try
             {
                 var webAPI = await GetRefreshedSpotifyWebAPI(applicationId);
-
                 var playbackContext = await webAPI.GetPlaybackAsync();
+
+                CheckResponse(playbackContext);
 
                 return playbackContext.Error == null;
             }
@@ -176,6 +186,31 @@ namespace Winleafs.Server.Services
                 TokenType = "Bearer", //TokenType is always bearar, hence we do not need to save it on a user object
                 AccessToken = user.SpotifyAccessToken
             };
+        }
+
+        /// <summary>
+        /// Throws and logs an exception if the statuscode is not 200 OK
+        /// </summary>
+        private void CheckResponse(HttpResponseMessage response)
+        {
+            if (!response.IsSuccessStatusCode)
+            {
+                //TODO: add logging with statuscode and reasonphrase
+                throw new SpotifyRequestException("Something went wrong during a Spotify API request.");
+            }
+        }
+
+        /// <summary>
+        /// Throws and logs an exception if the request made with
+        /// the Spotify Web API library is not successful.
+        /// </summary>
+        private void CheckResponse(BasicModel webAPIResponse)
+        {
+            if (webAPIResponse.HasError())
+            {
+                //TODO: add logging with statuscode and error
+                throw new SpotifyRequestException("Something went wrong during a Spotify API request.");
+            }
         }
         #endregion
     }
