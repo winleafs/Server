@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using Serilog;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Models;
 using System;
@@ -195,7 +196,7 @@ namespace Winleafs.Server.Services
         {
             if (!response.IsSuccessStatusCode)
             {
-                //TODO: add logging with statuscode and reasonphrase
+                Log.Error($"Something went wrong during a Spotify API request. Statuscode: {response.StatusCode}, ReasonPhrase: {response.ReasonPhrase}");
                 throw new SpotifyRequestException("Something went wrong during a Spotify API request.");
             }
         }
@@ -208,7 +209,7 @@ namespace Winleafs.Server.Services
         {
             if (webAPIResponse.HasError())
             {
-                //TODO: add logging with statuscode and error
+                Log.Error($"Something went wrong during a Spotify API request. Statuscode: {webAPIResponse.Error.Status}, ReasonPhrase: {webAPIResponse.Error.Message}");
                 throw new SpotifyRequestException("Something went wrong during a Spotify API request.");
             }
         }
