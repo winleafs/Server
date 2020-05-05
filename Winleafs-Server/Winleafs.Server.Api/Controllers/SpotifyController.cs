@@ -29,6 +29,12 @@ namespace Winleafs.Server.Api.Controllers
         [Route("authorize/{applicationId}")]
         public async Task<IActionResult> Authorize(string applicationId)
         {
+            Guid guidOutput;
+            if (string.IsNullOrWhiteSpace(applicationId) || !Guid.TryParse(applicationId, out guidOutput))
+            {
+                return BadRequest("Error: Invalid parameters given."); //Generic error to not give too much information
+            }
+
             //Add the user if it is his/her first time using the spotify functionality
             await _userService.AddUserIfNotExists(applicationId);
 
@@ -47,6 +53,11 @@ namespace Winleafs.Server.Api.Controllers
             if (!string.IsNullOrEmpty(error))
             {
                 return BadRequest("Error: Winleafs did not get access to Spotify.");
+            }
+
+            if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(state))
+            {
+                return BadRequest("Error: Invalid parameters given."); //Generic error to not give too much information
             }
 
             try
@@ -71,6 +82,12 @@ namespace Winleafs.Server.Api.Controllers
         [Route("playlists/{applicationId}")]
         public async Task<IActionResult> GetPlaylistNames(string applicationId)
         {
+            Guid guidOutput;
+            if (string.IsNullOrWhiteSpace(applicationId) || !Guid.TryParse(applicationId, out guidOutput))
+            {
+                return BadRequest("Error: Invalid parameters given."); //Generic error to not give too much information
+            }
+
             try
             {
                 return Ok(await _spotifyService.GetPlaylists(applicationId));
@@ -91,6 +108,12 @@ namespace Winleafs.Server.Api.Controllers
         [Route("current-playing-playlist-id/{applicationId}")]
         public async Task<IActionResult> GetCurrentPlayingPlaylistId(string applicationId)
         {
+            Guid guidOutput;
+            if (string.IsNullOrWhiteSpace(applicationId) || !Guid.TryParse(applicationId, out guidOutput))
+            {
+                return BadRequest("Error: Invalid parameters given."); //Generic error to not give too much information
+            }
+
             try
             {
                 return Ok(await _spotifyService.GetCurrentPlayingPlaylistId(applicationId));
