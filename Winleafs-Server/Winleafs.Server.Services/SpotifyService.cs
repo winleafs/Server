@@ -22,6 +22,7 @@ namespace Winleafs.Server.Services
     public class SpotifyService : ISpotifyService
     {
         private const string _spotifyApiTokenUrl = "https://accounts.spotify.com/api/token";
+        private const string _spotifyTokenType = "Bearer";
 
         private readonly HttpClient _spotifyAuthorizationClient;
 
@@ -184,7 +185,8 @@ namespace Winleafs.Server.Services
 
             return new SpotifyWebAPI
             {
-                TokenType = "Bearer", //TokenType is always bearar, hence we do not need to save it on a user object
+                //TokenType is always bearer, hence we do not need to save it on a user object
+                TokenType = _spotifyTokenType,
                 AccessToken = user.SpotifyAccessToken
             };
         }

@@ -29,13 +29,12 @@ namespace Winleafs.Server.Api.Controllers
         [Route("authorize/{applicationId}")]
         public async Task<IActionResult> Authorize(string applicationId)
         {
-            Guid guidOutput;
-            if (string.IsNullOrWhiteSpace(applicationId) || !Guid.TryParse(applicationId, out guidOutput))
+            if (string.IsNullOrWhiteSpace(applicationId) || !Guid.TryParse(applicationId, out var guidOutput))
             {
-                return BadRequest("Error: Invalid parameters given."); //Generic error to not give too much information
+                return WarningLogBadRequest("Error: Invalid parameters given."); //Generic error to not give too much information
             }
 
-            //Add the user if it is his/her first time using the spotify functionality
+            //Add the user if it is their first time using the spotify functionality
             await _userService.AddUserIfNotExists(applicationId);
 
             const string scope = "playlist-read-private playlist-read-collaborative user-read-currently-playing user-read-playback-state";
@@ -52,12 +51,12 @@ namespace Winleafs.Server.Api.Controllers
             //If there is an error, the user did not grant access
             if (!string.IsNullOrEmpty(error))
             {
-                return BadRequest("Error: Winleafs did not get access to Spotify.");
+                return WarningLogBadRequest("Error: Winleafs did not get access to Spotify.");
             }
 
             if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(state))
             {
-                return BadRequest("Error: Invalid parameters given."); //Generic error to not give too much information
+                return WarningLogBadRequest("Error: Invalid parameters given."); //Generic error to not give too much information
             }
 
             try
@@ -66,13 +65,11 @@ namespace Winleafs.Server.Api.Controllers
             }
             catch (InvalidApplicationIdException ex)
             {
-                Log.Warning(ex, $"Failed to find a matching application id for application id {state}.");
-                return BadRequest("Failed to find a matching application id. Please disconnect from Spotify and try again.");
+                return WarningLogBadRequest("Failed to find a matching application id. Please disconnect from Spotify and try again.", ex);
             }
             catch (Exception ex)
             {
-                Log.Warning(ex, "Unknown error during Spotify authorization.");
-                return BadRequest("Unknown error during Spotify authorization. Please disconnect from Spotify and try again.");
+                return WarningLogBadRequest("Unknown error during Spotify authorization. Please disconnect from Spotify and try again.", ex);
             }
 
             return Ok("Authentication successful! You can now close this window");
@@ -82,10 +79,9 @@ namespace Winleafs.Server.Api.Controllers
         [Route("playlists/{applicationId}")]
         public async Task<IActionResult> GetPlaylistNames(string applicationId)
         {
-            Guid guidOutput;
-            if (string.IsNullOrWhiteSpace(applicationId) || !Guid.TryParse(applicationId, out guidOutput))
+            if (string.IsNullOrWhiteSpace(applicationId) || !Guid.TryParse(applicationId, out var guidOutput))
             {
-                return BadRequest("Error: Invalid parameters given."); //Generic error to not give too much information
+                return WarningLogBadRequest("Error: Invalid parameters given."); //Generic error to not give too much information
             }
 
             try
@@ -94,13 +90,11 @@ namespace Winleafs.Server.Api.Controllers
             }
             catch (InvalidApplicationIdException ex)
             {
-                Log.Warning(ex, $"Failed to find a matching application id for application id {applicationId}.");
-                return BadRequest("Failed to find a matching application id. Please disconnect from Spotify and try again.");
+                return WarningLogBadRequest("Failed to find a matching application id. Please disconnect from Spotify and try again.", ex);
             }
             catch (Exception ex)
             {
-                Log.Warning(ex, "Failed to retrieve playlist names.");
-                return BadRequest("Failed to retrieve playlist names.");
+                return WarningLogBadRequest("Failed to retrieve playlist names.", ex);
             }
         }
 
@@ -108,10 +102,9 @@ namespace Winleafs.Server.Api.Controllers
         [Route("current-playing-playlist-id/{applicationId}")]
         public async Task<IActionResult> GetCurrentPlayingPlaylistId(string applicationId)
         {
-            Guid guidOutput;
-            if (string.IsNullOrWhiteSpace(applicationId) || !Guid.TryParse(applicationId, out guidOutput))
+            if (string.IsNullOrWhiteSpace(applicationId) || !Guid.TryParse(applicationId, out var guidOutput))
             {
-                return BadRequest("Error: Invalid parameters given."); //Generic error to not give too much information
+                return WarningLogBadRequest("Error: Invalid parameters given."); //Generic error to not give too much information
             }
 
             try
@@ -120,13 +113,11 @@ namespace Winleafs.Server.Api.Controllers
             }
             catch (InvalidApplicationIdException ex)
             {
-                Log.Warning(ex, $"Failed to find a matching application id for application id {applicationId}.");
-                return BadRequest("Failed to find a matching application id. Please disconnect from Spotify and try again.");
+                return WarningLogBadRequest("Failed to find a matching application id. Please disconnect from Spotify and try again.", ex);
             }
             catch (Exception ex)
             {
-                Log.Warning(ex, "Failed to retrieve current playing playlist id.");
-                return BadRequest("Failed to retrieve current playing playlist id.");
+                return WarningLogBadRequest("Failed to retrieve current playing playlist id.", ex);
             }
         }
 
