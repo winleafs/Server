@@ -1,5 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using System;
+using System.Net;
+using Winleafs.Server.Api.DTO;
 using Winleafs.Server.Data;
 
 namespace Winleafs.Server.Api.Controllers
@@ -23,6 +27,27 @@ namespace Winleafs.Server.Api.Controllers
         protected BaseApiController(DbContext context)
         {
             if (context is ApplicationContext appContext) Context = appContext;
+        }
+
+        /// <summary>
+        ///     Writes a warning log and returns a formatted bad request response
+        /// </summary>
+        protected IActionResult WarningLogBadRequest(string error, Exception ex = null)
+        {
+            if (ex != null)
+            {
+                Log.Warning(ex, error);
+            }
+            else
+            {
+                Log.Warning(error);
+            }
+
+            return BadRequest(new ErrorDTO
+            {
+                Message = error,
+                ErrorCode = (int)HttpStatusCode.BadRequest
+            });
         }
     }
 }

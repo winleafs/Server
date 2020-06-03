@@ -348,3 +348,6 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+# ignore spotify information
+Winleafs-Server/Winleafs.Server.Services/Helpers/SpotifyClientInfo.cs

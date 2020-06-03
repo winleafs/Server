@@ -1,6 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Winleafs.Server.Data;
+using Winleafs.Server.Repositories;
+using Winleafs.Server.Repositories.Interfaces;
+using Winleafs.Server.Services;
+using Winleafs.Server.Services.Interfaces;
 
 namespace Winleafs.Server.Api.Configuration
 {
@@ -25,10 +29,9 @@ namespace Winleafs.Server.Api.Configuration
         /// <returns>The <paramref name="services" /> enriched with the services and repositories.</returns>
         public static IServiceCollection AddServicesAndRepositories(this IServiceCollection services)
         {
-            // Add new services and repositories here.
-            // Done like:
-            // services.AddScoped<IUserService, UserService>();
-            // services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<ISpotifyService, SpotifyService>();
 
             return services;
         }
