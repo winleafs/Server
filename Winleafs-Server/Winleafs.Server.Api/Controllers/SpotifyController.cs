@@ -37,8 +37,7 @@ namespace Winleafs.Server.Api.Controllers
             //Add the user if it is their first time using the spotify functionality
             await _userService.AddUserIfNotExists(applicationId);
 
-            const string scope = "playlist-read-private playlist-read-collaborative user-read-currently-playing user-read-playback-state";
-            return Redirect($"https://accounts.spotify.com/authorize/?client_id={SpotifyClientInfo.ClientID}&response_type=code&redirect_uri={SpotifyClientInfo.RedirectURI}&scope={scope}&state={applicationId}&show_dialog=false");
+            return Redirect(GetSpotifyAuthorizeUrl(applicationId));
         }
 
         /// <remarks>
@@ -135,5 +134,13 @@ namespace Winleafs.Server.Api.Controllers
         {
             return Ok((await _spotifyService.IsConnected(applicationId)).ToString().ToLower());
         }
+
+        #region Privates
+        private string GetSpotifyAuthorizeUrl(string applicationId)
+        {
+            const string scope = "playlist-read-private playlist-read-collaborative user-read-currently-playing user-read-playback-state";
+            return $"https://accounts.spotify.com/authorize/?client_id={SpotifyClientInfo.ClientID}&response_type=code&redirect_uri={SpotifyClientInfo.RedirectURI}&scope={scope}&state={applicationId}&show_dialog=false";
+        }
+        #endregion
     }
 }
