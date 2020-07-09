@@ -6,7 +6,6 @@ using SpotifyAPI.Web.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -114,9 +113,25 @@ namespace Winleafs.Server.Services
 
             CheckResponse(profile);
 
-            var info = await webAPI.GetUserPlaylistsAsync(profile.Id);
+            var result = new Dictionary<string, string>();
+            var offset = 0;
+            const int pageSize = 50;
 
-            return info.Items.ToDictionary(playlist => playlist.Id, playlist => playlist.Name);
+            Paging<SimplePlaylist> playlists;
+            do
+            {
+                playlists = await webAPI.GetUserPlaylistsAsync(profile.Id, pageSize, offset);
+
+                foreach (var playlist in playlists.Items)
+                {
+                    result.Add(playlist.Id, playlist.Name);
+                }
+
+                offset += pageSize;
+            }
+            while (playlists.HasNextPage());
+
+            return result;
         }
 
         public async Task Disconnect(string applicationId)

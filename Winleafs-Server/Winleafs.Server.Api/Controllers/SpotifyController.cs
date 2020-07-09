@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Serilog;
 using System;
 using System.Threading.Tasks;
 using Winleafs.Server.Services.Exceptions;
@@ -76,7 +75,7 @@ namespace Winleafs.Server.Api.Controllers
 
         [HttpGet]
         [Route("playlists/{applicationId}")]
-        public async Task<IActionResult> GetPlaylistNames(string applicationId)
+        public async Task<IActionResult> GetPlaylists(string applicationId)
         {
             if (string.IsNullOrWhiteSpace(applicationId) || !Guid.TryParse(applicationId, out var guidOutput))
             {
